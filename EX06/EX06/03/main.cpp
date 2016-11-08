@@ -32,7 +32,7 @@ int main()
 		// append year to file
 		string filename = "Babynameranking" + yearInput + ".txt";
 		cout << filename << endl;
-		input.open(filename); // attempt to open file
+		input.open(filename.c_str()); // attempt to open file
 		if (input.fail())
 		{
 			cout << "That file does not exist. Please enter a valid file name.\n>>";
@@ -42,6 +42,7 @@ int main()
 
 	cout << "Opening file: " << userInput << ". . ." << endl;
 	string fileContents;
+	bool nameFound = false;
 	while (!input.eof())
 	{
 		// collects all information in the line (per loop)
@@ -53,12 +54,22 @@ int main()
 		
 		input >> location >> maleName >> mNameCount >> femaleName >> fNameCount; // saves all that information
 
-		if (maleName == nameInput) // checks the information against a name
+		if (genderInput == "M" && maleName == nameInput) // checks the information against a name
 		{
-			cout << maleName << " is ranked #" << location << " in the year " << yearInput << endl;
+			cout << "Male name: " << maleName << " is ranked #" << location << " in the year " << yearInput << endl;
+			nameFound = true;
+			break; // breaks the loop
+		}
+		else if (genderInput == "F" && femaleName == nameInput)
+		{
+			cout << "Female name: " << femaleName << " is ranked #" << location << " in the year " << yearInput << endl;
+			nameFound = true;
 			break; // breaks the loop
 		}
 	}
+	if (!nameFound)
+		cout << "Name not found with those specifications." << endl;
+
 	input.close(); // closes the file
 	return 0;
 }
